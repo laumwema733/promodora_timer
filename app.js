@@ -1,22 +1,47 @@
-let time = 1500;
+let time = 25 * 60; //seconds
+let breakTime = 5 * 60; //seconds
+let leftTime = time;
+let count = 0;
+let isOn = false;
 let intervalId;
+let isWorkTime = false;
 
 const timeLabel = document.querySelector(".time");
 
-function createTimer() {
-  const min = String(Math.trunc(time / 60)).padStart(2, 0);
-  const sec = String(time % 60).padStart(2, 0);
+(function () {
+  toggleTimer();
+})();
+
+function updateTimerDisplay() {
+  const min = String(Math.trunc(leftTime / 60)).padStart(2, 0);
+  const sec = String(leftTime % 60).padStart(2, 0);
   timeLabel.textContent = `${min}:${sec}`;
+}
+function updateCycle() {
+  document.querySelector(".cycle").textContent = count++;
+}
+function toggleTimer() {
+  isWorkTime = !isWorkTime;
+  leftTime = isWorkTime ? time : breakTime;
+  document.querySelector(".info").textContent = isWorkTime
+    ? "Focus Time"
+    : "Break Time";
+
+  if (leftTime === breakTime) {
+    updateCycle();
+  }
 }
 
 function start() {
   intervalId ??= setInterval(() => {
-    createTimer();
-    if (time > 0) {
-      time--;
+    if (leftTime > 0) {
+      leftTime--;
+      updateTimerDisplay();
     } else {
-      reset();
+      toggleTimer();
       stop();
+      updateTimerDisplay();
+      start();
     }
   }, 1000);
 }
@@ -25,10 +50,22 @@ function stop() {
   intervalId = null;
 }
 function reset() {
-  time = 1500;
-  createTimer();
+  stop();
+  leftTime = time;
+  count = 0;
+  updateTimerDisplay();
 }
 
-document.querySelector(".btn-start").addEventListener("click", start);
-document.querySelector(".btn-pause").addEventListener("click", stop);
-document.querySelector(".btn-reset").addEventListener("click", reset);
+document.querySelectorAll("button").forEach((btn) =>
+  btn.addEventListener("click", (e) => {
+    if (e.target.id === "start") {
+      start();
+    }
+    if (e.target.id === "pause") {
+      stop();
+    }
+    if (e.target.id === "reset") {
+      reset();
+    }
+  }),
+);
