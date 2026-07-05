@@ -1,8 +1,7 @@
-let time = 15;
+let time = 1500;
 let intervalId;
 
 const timeLabel = document.querySelector(".time");
-console.log(timeLabel);
 
 function createTimer() {
   const min = String(Math.trunc(time / 60)).padStart(2, 0);
