@@ -12,7 +12,7 @@ body {
 .board {
   max-width: 500px;
   border-radius: 12px;
-  margin: 300px auto;
+  margin: 200px auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,8 +22,13 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 .clock {
-  font-size: 3.4rem;
+  font-size: 4rem;
   font-weight: bold;
+}
+.controller {
+  display: flex;
+  gap: 1.6em;
+  align-items: center;
 }
 .btn {
   border: none;
