@@ -8,10 +8,6 @@ let isWorkTime = false;
 
 const timeLabel = document.querySelector(".time");
 
-(function () {
-  toggleTimer();
-})();
-
 function updateTimerDisplay() {
   const min = String(Math.trunc(leftTime / 60)).padStart(2, 0);
   const sec = String(leftTime % 60).padStart(2, 0);
@@ -23,13 +19,14 @@ function updateCycle() {
 function toggleTimer() {
   isWorkTime = !isWorkTime;
   leftTime = isWorkTime ? time : breakTime;
+
+  if (isWorkTime) {
+    updateCycle();
+  }
+
   document.querySelector(".info").textContent = isWorkTime
     ? "Focus Time"
     : "Break Time";
-
-  if (leftTime === breakTime) {
-    updateCycle();
-  }
 }
 
 function start() {
@@ -69,3 +66,6 @@ document.querySelectorAll("button").forEach((btn) =>
     }
   }),
 );
+
+updateTimerDisplay();
+updateCycle();
