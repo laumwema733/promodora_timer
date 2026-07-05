@@ -1,4 +1,4 @@
-let time = 1500;
+let time = 15;
 let intervalId;
 
 const timeLabel = document.querySelector(".time");
@@ -13,7 +13,12 @@ function createTimer() {
 function start() {
   intervalId ??= setInterval(() => {
     createTimer();
-    time--;
+    if (time > 0) {
+      time--;
+    } else {
+      reset();
+      stop();
+    }
   }, 1000);
 }
 function stop() {
